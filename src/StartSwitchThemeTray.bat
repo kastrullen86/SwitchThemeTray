@@ -1,3 +1,4 @@
 @echo off
-powershell.exe -ExecutionPolicy Bypass -WindowStyle Hidden -File "%~dp0\SwitchThemeTray.ps1"
+REM --- Kör tray-appen tyst ---
+powershell.exe -ExecutionPolicy Bypass -WindowStyle Hidden -File "%~dp0SwitchThemeTray.ps1"
 exit
