@@ -1,0 +1,6 @@
+*.exe
+*.log
+*.user
+*.vs
+/dist
+/build
