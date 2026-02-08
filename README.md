@@ -3,7 +3,6 @@
 SwitchThemeTray är ett litet Windows-verktyg som låter dig växla mellan ljus och mörk Windows-tema direkt från systemfältet (system tray).
 
 Applikationen är byggd i PowerShell och kan köras som:
-
 - färdig **EXE** (rekommenderat)
 - **BAT**
 - **PS1** (för avancerade användare)
@@ -16,6 +15,7 @@ Applikationen är byggd i PowerShell och kan köras som:
 - Körs diskret i system tray
 - Stöd för **tyst körning**
 - Ingen installation krävs
+- Ingen bakgrundsprocess utöver tray-appen
 - Kan användas som EXE, BAT eller PS1
 
 ---
@@ -72,66 +72,76 @@ Du behöver detta **endast** om du vill bygga EXE-filen själv.
 ### Installera ps2exe
 ```powershell
 Install-Module ps2exe -Scope CurrentUser
-
 Vanliga användare kan ignorera detta och använda färdig .exe från Releases.
 
 🏗 Bygg EXE själv
-
-När ps2exe är installerat kan EXE byggas via projektets build-script:
+När ps2exe är installerat kan EXE byggas via:
 
 .\build.ps1
-
-
 Detta:
 
 paketerar PowerShell-scriptet
 
 inkluderar ikon
 
+signerar EXE (om cert finns)
+
 skapar en fristående .exe
 
-🧩 Projektstruktur (översikt)
+🧩 Projektstruktur
 /
 ├─ SwitchThemeTray.ps1      # Huvudlogik
 ├─ SwitchThemeTray.bat      # Tyst start / wrapper
-├─ build.ps1                # Bygger EXE
+├─ build.ps1                # Bygger + signerar EXE
 ├─ assets/
 │  └─ switchtheme-icon.ico  # Applikationsikon
+├─ dist/
+│  └─ SwitchThemeTray.exe   # Färdig EXE (genereras)
 └─ README.md
-
 🎨 Ikon
-
 Applikationsikonen (assets/switchtheme-icon.ico) är skapad av projektets upphovsman.
 
 © Henrik Jansson
 
-Fri att använda tillsammans med detta projekt
+Fri att använda endast tillsammans med detta projekt
 
-Får inte återanvändas separat utan tillstånd
+Får ej återanvändas separat utan tillstånd
 
-🔐 Säkerhet & Trust
+🔐 Säkerhet & Signering
+BAT och PS1 kan kräva justerad Execution Policy
 
-BAT och PS1 kan kräva justerad Execution Policy i PowerShell
+EXE-versionen undviker detta och är därför att föredra
 
-EXE-versionen undviker detta och är därför att föredra för slutanvändare
+EXE:n kan vara självsignerad vid byggnation
 
-Inga nätverksanrop eller externa beroenden används vid körning.
+Självsignering påverkar inte funktionalitet, endast hur Windows verifierar filen.
 
 📦 Licens
-
 Projektets källkod är fri att använda och modifiera enligt licensen i detta repository.
 
 Ikonen omfattas inte automatiskt av samma rättigheter – se avsnittet Ikon ovan.
 
 💬 Notering
-
-EXE-filen innehåller samma funktionalitet som BAT/PS1 – inget mer, inget mindre.
-Skillnaden är paketering och användarvänlighet, inte logik.
+EXE-filen innehåller exakt samma logik som BAT/PS1.
+Skillnaden är endast paketering och användarvänlighet.
 
 🧠 Tips
+Vill du automatisera? → använd PS1
 
-Vill du automatisera? Använd PS1
+Vill du ha tyst autostart? → använd BAT
 
-Vill du ha tyst autostart? Använd BAT
+Vill du ha enkel användning? → använd EXE
 
-Vill du ha enkel användning? Använd EXE
+
+---
+
+# ✅ 2. CERTIFIERING – VAR & HUR (EN GÅNG)
+
+## Skapa cert (körs **manuellt**, inte i build)
+
+```powershell
+New-SelfSignedCertificate `
+  -Type CodeSigning `
+  -Subject "CN=SwitchThemeTray" `
+  -CertStoreLocation "Cert:\CurrentUser\My"
+Detta skapar certifikatet lokalt för din användare.
