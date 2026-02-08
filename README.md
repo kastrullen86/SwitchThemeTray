@@ -72,6 +72,7 @@ Du behöver detta **endast** om du vill bygga EXE-filen själv.
 ### Installera ps2exe
 ```powershell
 Install-Module ps2exe -Scope CurrentUser
+---
 Vanliga användare kan ignorera detta och använda färdig .exe från Releases.
 
 🏗 Bygg EXE själv
