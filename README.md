@@ -3,6 +3,7 @@
 SwitchThemeTray är ett litet Windows-verktyg som låter dig växla mellan ljus och mörk Windows-tema direkt från systemfältet (system tray).
 
 Applikationen är byggd i PowerShell och kan köras som:
+
 - färdig **EXE** (rekommenderat)
 - **BAT**
 - **PS1** (för avancerade användare)
@@ -46,12 +47,14 @@ Applikationen kan köras utan synliga fönster.
 ## 🧑‍💻 Avancerade användare
 
 Detta är för dig som vill:
+
 - köra scriptet manuellt
 - anpassa funktionalitet
 - bygga egen EXE
 - integrera i egna workflows
 
 Du kan då använda:
+
 - `SwitchThemeTray.ps1`
 - `SwitchThemeTray.bat`
 
@@ -64,15 +67,22 @@ EXE-filen är **endast ett paketerat lager ovanpå PowerShell-scriptet**.
 Du behöver detta **endast** om du vill bygga EXE-filen själv.
 
 ### Krav
+
 - Windows
 - PowerShell 5.1 eller senare
 - Git
 - PowerShell-modulen **ps2exe**
 
-### Installera ps2exe
-```powershell
-Install-Module ps2exe -Scope CurrentUser
 ---
+
+### Installera ps2exe
+
+```Powershell
+Install-Module ps2exe -Scope CurrentUser
+```
+
+---
+
 Vanliga användare kan ignorera detta och använda färdig .exe från Releases.
 
 🏗 Bygg EXE själv
@@ -89,6 +99,9 @@ signerar EXE (om cert finns)
 
 skapar en fristående .exe
 
+---
+
+```markdown
 🧩 Projektstruktur
 /
 ├─ SwitchThemeTray.ps1      # Huvudlogik
@@ -96,9 +109,13 @@ skapar en fristående .exe
 ├─ build.ps1                # Bygger + signerar EXE
 ├─ assets/
 │  └─ switchtheme-icon.ico  # Applikationsikon
-├─ dist/
+├─ dist/                    # Genereras vid build (ingår ej i Git)
 │  └─ SwitchThemeTray.exe   # Färdig EXE (genereras)
 └─ README.md
+```
+
+---
+
 🎨 Ikon
 Applikationsikonen (assets/switchtheme-icon.ico) är skapad av projektets upphovsman.
 
@@ -126,6 +143,8 @@ Ikonen omfattas inte automatiskt av samma rättigheter – se avsnittet Ikon ova
 EXE-filen innehåller exakt samma logik som BAT/PS1.
 Skillnaden är endast paketering och användarvänlighet.
 
+---
+
 🧠 Tips
 Vill du automatisera? → använd PS1
 
@@ -133,12 +152,13 @@ Vill du ha tyst autostart? → använd BAT
 
 Vill du ha enkel användning? → använd EXE
 
-
----
-
-# ✅ 2. CERTIFIERING – VAR & HUR (EN GÅNG)
+## ✅ 2. CERTIFIERING – VAR & HUR (EN GÅNG)
 
 ## Skapa cert (körs **manuellt**, inte i build)
+>
+> Detta görs en gång per utvecklarmaskin.
+
+---
 
 ```powershell
 New-SelfSignedCertificate `
@@ -146,3 +166,4 @@ New-SelfSignedCertificate `
   -Subject "CN=SwitchThemeTray" `
   -CertStoreLocation "Cert:\CurrentUser\My"
 Detta skapar certifikatet lokalt för din användare.
+```
