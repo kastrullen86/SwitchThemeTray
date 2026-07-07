@@ -77,11 +77,11 @@ function Get-Autostart {
 function Toggle-Autostart {
     if (Get-Autostart) {
         Remove-ItemProperty -Path $RegRunPath -Name $AppName -ErrorAction SilentlyContinue
-    } else {
+} else {
         # Quotes added around the path to ensure spaces in folders don't break execution
-        Set-ItemProperty -Path $RegRunPath -Name $AppName -Value "`"$CurrentAppPath`"" -PropertyType String
+        Set-ItemProperty -Path $RegRunPath -Name $AppName -Value "`"$CurrentAppPath`""
     }
-    $autostartItem.Checked = (Get-Autostart)
+        $autostartItem.Checked = (Get-Autostart)
 }
 
 # --- Högerklick → meny ---
