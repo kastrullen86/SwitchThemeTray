@@ -5,7 +5,7 @@
 $src  = "SwitchThemeTray.ps1"
 $out  = "dist\SwitchThemeTray.exe"
 $icon = "assets\switchtheme-icon.ico"
-$version = "1.0.0"
+$version = "1.1.1"
 
 Write-Host "▶ Bygger SwitchThemeTray v$version"
 
